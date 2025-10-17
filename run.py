@@ -24,10 +24,16 @@ class MovingCircles:
             self.canvas.create_line(0,i*CELL_SIZE,GRID_SIZE*CELL_SIZE,i*CELL_SIZE)
 
     def move_circle(self, x, y):
-        direction = random.choice([(0,1),(0,-1),(1,0),(-1,0)])
-        new_x = min(max(x + direction[0], 0), GRID_SIZE-1)
-        new_y = min(max(y + direction[1], 0), GRID_SIZE-1)
-        return new_x, new_y
+        directions = [(0,1),(0,-1),(1,0),(-1,0)]
+        valid = []
+        for dx, dy in directions:
+            nx = x + dx
+            ny = y + dy
+            if 0 <= nx < GRID_SIZE and 0 <= ny < GRID_SIZE:
+                valid.append((nx, ny))
+        if not valid:
+            return x, y
+        return random.choice(valid)
 
     def update_positions(self):
         for i in range(NUM_CIRCLES):
